@@ -1,6 +1,6 @@
 /*** CONSTANT ***/
-const COLS = 10;
-const ROWS = 15; // giảm xuống còn 15 dòng
+let BLOCK_SIZE = Math.floor(window.innerWidth / COLS);
+const ROWS = Math.floor(window.innerHeight / BLOCK_SIZE);
 const BLOCK_SIZE = 30;
 const COLOR_MAPPING = [
   'red',
