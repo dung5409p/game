@@ -1,0 +1,152 @@
+/* Reset cơ bản */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #f0f0f0;
+}
+
+/* Container chính: board + sidebar */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px; /* khoảng cách giữa board và sidebar */
+  margin-top: 20px;
+}
+
+/* Khung trò chơi */
+#board {
+  border: 2px solid #333;
+  background: #fff;
+}
+
+/* Sidebar bên phải */
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Tiêu đề và điểm */
+.side-bar h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.side-bar p {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+/* Nút bắt đầu */
+.play-btn {
+  background-color: #2196f3;
+  color: white;
+  font-size: 18px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.play-btn:hover {
+  background-color: #1976d2;
+}
+
+/* Controls dạng dấu + */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.middle-row {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+/* Nút điều khiển */
+.controls button {
+  background-color: #4caf50;
+  color: white;
+  font-size: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+.controls button:active {
+  background-color: #2e7d32;
+  transform: scale(0.95);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* đưa sidebar xuống dưới board */
+    align-items: center;
+  }
+
+  .controls button {
+    font-size: 24px;
+    padding: 20px;
+  }
+
+  .middle-row {
+    gap: 30px;
+  }
+}
+/* Nền hồng nhẹ */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ffe6f0;
+  overflow: hidden; /* tránh thanh cuộn khi hoa rơi */
+}
+
+/* Hoa rơi */
+.flower {
+  position: fixed;
+  top: -50px;
+  font-size: 24px;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+#board,
+.side-bar,
+.controls {
+  position: relative;
+  z-index: 10; /* nằm trên hiệu ứng */
+}
+
+.flower {
+  position: fixed;
+  top: -50px;
+  z-index: 1; /* nằm dưới game */
+  pointer-events: none; /* không chặn thao tác chuột/touch */
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
