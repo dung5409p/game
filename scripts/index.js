@@ -186,16 +186,28 @@ const WHITE_COLOR_ID = 7;
 
 const COLS = 10;
 const ROWS = 20;
-
-// Tính toán kích thước ô dựa trên chiều rộng màn hình
-const BLOCK_SIZE = Math.floor(window.innerWidth / COLS / 1.5);
+let BLOCK_SIZE;
 
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
 
-// Canvas sẽ vừa với màn hình
-ctx.canvas.width = COLS * BLOCK_SIZE;
-ctx.canvas.height = ROWS * BLOCK_SIZE;
+function resizeCanvas() {
+  // Tự động tính kích thước ô dựa trên chiều rộng màn hình
+  BLOCK_SIZE = Math.floor(window.innerWidth / COLS / 1.5);
+
+  ctx.canvas.width = COLS * BLOCK_SIZE;
+  ctx.canvas.height = ROWS * BLOCK_SIZE;
+
+  if (board) {
+    board.drawBoard(); // vẽ lại khi resize
+  }
+}
+
+// Gọi khi load trang
+resizeCanvas();
+
+// Gọi lại khi xoay ngang/dọc hoặc thay đổi kích thước
+window.addEventListener("resize", resizeCanvas);
 
 class Board {
   constructor(ctx) {
