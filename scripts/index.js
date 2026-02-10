@@ -543,7 +543,3 @@ function gameLoop() {
           break;
       }
     });
-   
-
-  },
-);
