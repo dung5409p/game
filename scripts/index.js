@@ -1,6 +1,6 @@
 /*** CONSTANT ***/
 const COLS = 10;
-const ROWS = 20;
+const ROWS = ;
 const BLOCK_SIZE = 30;
 const COLOR_MAPPING = [
   'red',
