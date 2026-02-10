@@ -547,3 +547,5 @@ function gameLoop() {
           break;
       }
     });
+  },
+);
