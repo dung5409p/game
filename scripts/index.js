@@ -1,6 +1,6 @@
 /*** CONSTANT ***/
 const COLS = 10;
-const ROWS = 15;
+const ROWS = 15; // giảm xuống còn 15 dòng
 const BLOCK_SIZE = 30;
 const COLOR_MAPPING = [
   'red',
