@@ -1,278 +1,462 @@
-/**************** CONSTANT ****************/
-const COLOR_MAPPING = [
-  "red",
-  "orange",
-  "green",
-  "purple",
-  "blue",
-  "cyan",
-  "yellow",
-  "white",
-];
-
+/*** CONSTANT ***/
 const COLS = 10;
 const ROWS = 20;
-const WHITE_COLOR_ID = 7;
+const BLOCK_SIZE = 30;
+const COLOR_MAPPING = [
+  'red',
+  'orange',
+  'green',
+  'purple',
+  'blue',
+  'cyan',
+  'yellow',
+  'white',
+];
+
+const BRICK_LAYOUT = [
+  [
+    [
+      [1, 7, 7],
+      [1, 1, 1],
+      [7, 7, 7],
+    ],
+    [
+      [7, 1, 1],
+      [7, 1, 7],
+      [7, 1, 7],
+    ],
+    [
+      [7, 7, 7],
+      [1, 1, 1],
+      [7, 7, 1],
+    ],
+    [
+      [7, 1, 7],
+      [7, 1, 7],
+      [1, 1, 7],
+    ],
+  ],
+  [
+    [
+      [7, 1, 7],
+      [7, 1, 7],
+      [7, 1, 1],
+    ],
+    [
+      [7, 7, 7],
+      [1, 1, 1],
+      [1, 7, 7],
+    ],
+    [
+      [1, 1, 7],
+      [7, 1, 7],
+      [7, 1, 7],
+    ],
+    [
+      [7, 7, 1],
+      [1, 1, 1],
+      [7, 7, 7],
+    ],
+  ],
+  [
+    [
+      [1, 7, 7],
+      [1, 1, 7],
+      [7, 1, 7],
+    ],
+    [
+      [7, 1, 1],
+      [1, 1, 7],
+      [7, 7, 7],
+    ],
+    [
+      [7, 1, 7],
+      [7, 1, 1],
+      [7, 7, 1],
+    ],
+    [
+      [7, 7, 7],
+      [7, 1, 1],
+      [1, 1, 7],
+    ],
+  ],
+  [
+    [
+      [7, 1, 7],
+      [1, 1, 7],
+      [1, 7, 7],
+    ],
+    [
+      [1, 1, 7],
+      [7, 1, 1],
+      [7, 7, 7],
+    ],
+    [
+      [7, 7, 1],
+      [7, 1, 1],
+      [7, 1, 7],
+    ],
+    [
+      [7, 7, 7],
+      [1, 1, 7],
+      [7, 1, 1],
+    ],
+  ],
+  [
+    [
+      [7, 7, 7, 7],
+      [1, 1, 1, 1],
+      [7, 7, 7, 7],
+      [7, 7, 7, 7],
+    ],
+    [
+      [7, 7, 1, 7],
+      [7, 7, 1, 7],
+      [7, 7, 1, 7],
+      [7, 7, 1, 7],
+    ],
+    [
+      [7, 7, 7, 7],
+      [7, 7, 7, 7],
+      [1, 1, 1, 1],
+      [7, 7, 7, 7],
+    ],
+    [
+      [7, 1, 7, 7],
+      [7, 1, 7, 7],
+      [7, 1, 7, 7],
+      [7, 1, 7, 7],
+    ],
+  ],
+  [
+    [
+      [7, 7, 7, 7],
+      [7, 1, 1, 7],
+      [7, 1, 1, 7],
+      [7, 7, 7, 7],
+    ],
+    [
+      [7, 7, 7, 7],
+      [7, 1, 1, 7],
+      [7, 1, 1, 7],
+      [7, 7, 7, 7],
+    ],
+    [
+      [7, 7, 7, 7],
+      [7, 1, 1, 7],
+      [7, 1, 1, 7],
+      [7, 7, 7, 7],
+    ],
+    [
+      [7, 7, 7, 7],
+      [7, 1, 1, 7],
+      [7, 1, 1, 7],
+      [7, 7, 7, 7],
+    ],
+  ],
+  [
+    [
+      [7, 1, 7],
+      [1, 1, 1],
+      [7, 7, 7],
+    ],
+    [
+      [7, 1, 7],
+      [7, 1, 1],
+      [7, 1, 7],
+    ],
+    [
+      [7, 7, 7],
+      [1, 1, 1],
+      [7, 1, 7],
+    ],
+    [
+      [7, 1, 7],
+      [1, 1, 7],
+      [7, 1, 7],
+    ],
+  ],
+];
 
 const KEY_CODES = {
-  LEFT: "ArrowLeft",
-  RIGHT: "ArrowRight",
-  UP: "ArrowUp",
-  DOWN: "ArrowDown",
+  LEFT: 'ArrowLeft',
+  RIGHT: 'ArrowRight',
+  UP: 'ArrowUp',
+  DOWN: 'ArrowDown',
 };
 
-/**************** CANVAS ****************/
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
+const WHITE_COLOR_ID = 7;
 
-let BLOCK_SIZE;
-let board;
-let brick;
-let gameInterval = null;
-let speed = 800;
+const canvas = document.getElementById('board');
+const ctx = canvas.getContext('2d');
 
-/**************** RESIZE ****************/
-function resizeCanvas() {
-  BLOCK_SIZE = Math.min(
-    Math.floor(window.innerWidth / COLS),
-    Math.floor(window.innerHeight / ROWS),
-  );
+ctx.canvas.width = COLS * BLOCK_SIZE;
+ctx.canvas.height = ROWS * BLOCK_SIZE;
 
-  canvas.width = COLS * BLOCK_SIZE;
-  canvas.height = ROWS * BLOCK_SIZE;
-
-  if (board) board.drawBoard();
-}
-
-window.addEventListener("resize", resizeCanvas);
-
-/**************** BOARD ****************/
 class Board {
   constructor(ctx) {
     this.ctx = ctx;
-    this.grid = this.createGrid();
+    this.grid = this.generateWhiteBoard();
     this.score = 0;
     this.gameOver = false;
     this.isPlaying = false;
-  }
 
-  createGrid() {
-    return Array.from({ length: ROWS }, () =>
-      Array(COLS).fill(WHITE_COLOR_ID),
-    );
+    this.clearAudio = new Audio('../sounds/clear.wav');
   }
 
   reset() {
-    this.grid = this.createGrid();
     this.score = 0;
+    this.grid = this.generateWhiteBoard();
     this.gameOver = false;
-    document.getElementById("score").innerText = 0;
     this.drawBoard();
   }
 
-  drawCell(x, y, colorId) {
+  generateWhiteBoard() {
+    return Array.from({ length: ROWS }, () => Array(COLS).fill(WHITE_COLOR_ID));
+  }
+
+  drawCell(xAxis, yAxis, colorId) {
+    // xAxis => 1 yAxis => 1
     this.ctx.fillStyle =
       COLOR_MAPPING[colorId] || COLOR_MAPPING[WHITE_COLOR_ID];
     this.ctx.fillRect(
-      x * BLOCK_SIZE,
-      y * BLOCK_SIZE,
+      xAxis * BLOCK_SIZE,
+      yAxis * BLOCK_SIZE,
       BLOCK_SIZE,
-      BLOCK_SIZE,
+      BLOCK_SIZE
     );
-    this.ctx.strokeStyle = "black";
+    this.ctx.fillStyle = 'black';
     this.ctx.strokeRect(
-      x * BLOCK_SIZE,
-      y * BLOCK_SIZE,
+      xAxis * BLOCK_SIZE,
+      yAxis * BLOCK_SIZE,
       BLOCK_SIZE,
-      BLOCK_SIZE,
+      BLOCK_SIZE
     );
   }
 
   drawBoard() {
-    this.grid.forEach((row, y) =>
-      row.forEach((cell, x) => this.drawCell(x, y, cell)),
-    );
-  }
-
-  clearFullRows() {
-    const newGrid = this.grid.filter((row) =>
-      row.some((cell) => cell === WHITE_COLOR_ID),
-    );
-
-    const cleared = ROWS - newGrid.length;
-    if (cleared > 0) {
-      const emptyRows = Array.from({ length: cleared }, () =>
-        Array(COLS).fill(WHITE_COLOR_ID),
-      );
-      this.grid = [...emptyRows, ...newGrid];
-      this.score += cleared * 10;
-      document.getElementById("score").innerText = this.score;
+    for (let row = 0; row < this.grid.length; row++) {
+      for (let col = 0; col < this.grid[0].length; col++) {
+        this.drawCell(col, row, this.grid[row][col]);
+      }
     }
   }
 
-  gameOverHandler() {
+  handleCompleteRows() {
+    const latestGrid = board.grid.filter((row) => { // row => []
+      return row.some(col => col === WHITE_COLOR_ID);
+    });
+
+    const newScore = ROWS - latestGrid.length; // => newScore = tong cong hang da hoan thanh
+    const newRows = Array.from({ length: newScore }, () => Array(COLS).fill(WHITE_COLOR_ID));
+
+    if (newScore) {
+      board.grid = [...newRows, ...latestGrid];
+      this.handleScore(newScore * 10);
+
+      this.clearAudio.play();
+      console.log({latestGrid});
+    }
+  }
+
+  handleScore(newScore) {
+    this.score+= newScore;
+    document.getElementById('score').innerHTML = this.score;
+  }
+
+  handleGameOver() {
     this.gameOver = true;
     this.isPlaying = false;
-    clearInterval(gameInterval);
-    alert("Game Over!");
-    this.reset();
+    alert('GAME OVER!!!');
   }
 }
 
-/**************** BRICK ****************/
 class Brick {
-  constructor(layouts) {
-    this.layouts = layouts;
-    this.index = 0;
-    this.row = -2;
-    this.col = 3;
+  constructor(id) {
+    this.id = id;
+    this.layout = BRICK_LAYOUT[id];
+    this.activeIndex = 0;
+    this.colPos = 3;
+    this.rowPos = -2;
   }
 
-  get shape() {
-    return this.layouts[this.index];
-  }
-
-  draw(colorId) {
-    this.shape.forEach((row, y) =>
-      row.forEach((cell, x) => {
-        if (cell !== WHITE_COLOR_ID && this.row + y >= 0) {
-          board.drawCell(this.col + x, this.row + y, colorId);
-        }
-      }),
-    );
-  }
-
-  clear() {
-    this.draw(WHITE_COLOR_ID);
-  }
-
-  move(dx, dy) {
-    if (!this.collision(this.row + dy, this.col + dx, this.shape)) {
-      this.clear();
-      this.row += dy;
-      this.col += dx;
-      this.draw(this.id);
-      return true;
-    }
-    return false;
-  }
-
-  rotate() {
-    const nextIndex = (this.index + 1) % 4;
-    const nextShape = this.layouts[nextIndex];
-    if (!this.collision(this.row, this.col, nextShape)) {
-      this.clear();
-      this.index = nextIndex;
-      this.draw(this.id);
-    }
-  }
-
-  collision(nextRow, nextCol, shape) {
-    for (let y = 0; y < shape.length; y++) {
-      for (let x = 0; x < shape[0].length; x++) {
-        if (shape[y][x] !== WHITE_COLOR_ID) {
-          const newX = nextCol + x;
-          const newY = nextRow + y;
-
-          if (
-            newX < 0 ||
-            newX >= COLS ||
-            newY >= ROWS ||
-            (newY >= 0 && board.grid[newY][newX] !== WHITE_COLOR_ID)
-          ) {
-            return true;
-          }
+  draw() {
+    for (let row = 0; row < this.layout[this.activeIndex].length; row++) {
+      for (let col = 0; col < this.layout[this.activeIndex][0].length; col++) {
+        if (this.layout[this.activeIndex][row][col] !== WHITE_COLOR_ID) {
+          board.drawCell(col + this.colPos, row + this.rowPos, this.id);
         }
       }
     }
-    return false;
   }
 
-  lock() {
-    if (this.row <= 0) {
-      board.gameOverHandler();
+  clear() {
+    for (let row = 0; row < this.layout[this.activeIndex].length; row++) {
+      for (let col = 0; col < this.layout[this.activeIndex][0].length; col++) {
+        if (this.layout[this.activeIndex][row][col] !== WHITE_COLOR_ID) {
+          board.drawCell(col + this.colPos, row + this.rowPos, WHITE_COLOR_ID);
+        }
+      }
+    }
+  }
+
+  moveLeft() {
+    if (
+      !this.checkCollision(
+        this.rowPos,
+        this.colPos - 1,
+        this.layout[this.activeIndex]
+      )
+    ) {
+      this.clear();
+      this.colPos--;
+      this.draw();
+    }
+  }
+
+  moveRight() {
+    if (
+      !this.checkCollision(
+        this.rowPos,
+        this.colPos + 1,
+        this.layout[this.activeIndex]
+      )
+    ) {
+      this.clear();
+      this.colPos++;
+      this.draw();
+    }
+  }
+
+  moveDown() {
+    if (
+      !this.checkCollision(
+        this.rowPos + 1,
+        this.colPos,
+        this.layout[this.activeIndex]
+      )
+    ) {
+      this.clear();
+      this.rowPos++;
+      this.draw();
+
       return;
     }
 
-    this.shape.forEach((row, y) =>
-      row.forEach((cell, x) => {
-        if (cell !== WHITE_COLOR_ID) {
-          board.grid[this.row + y][this.col + x] = this.id;
+    this.handleLanded();
+    generateNewBrick();
+  }
+
+  rotate() {
+    if (
+      !this.checkCollision(
+        this.rowPos,
+        this.colPos,
+        this.layout[(this.activeIndex + 1) % 4]
+      )
+    ) {
+      this.clear();
+      this.activeIndex = (this.activeIndex + 1) % 4;
+      /**
+       * activeindex = 0
+       * 0 + 1 = 1 % 4 ==> 1
+       *
+       * activeIndex = 3
+       * 3 + 1 = 4 % 4 ==> 0
+       *
+       * **/
+      this.draw();
+    }
+  }
+
+  checkCollision(nextRow, nextCol, nextLayout) {
+    // if (nextCol < 0) return true;
+
+    for (let row = 0; row < nextLayout.length; row++) {
+      for (let col = 0; col < nextLayout[0].length; col++) {
+        if (nextLayout[row][col] !== WHITE_COLOR_ID && nextRow >= 0) {
+          if (
+            col + nextCol < 0 ||
+            col + nextCol >= COLS ||
+            row + nextRow >= ROWS ||
+            board.grid[row+nextRow][col+nextCol] !== WHITE_COLOR_ID
+          )
+            return true;
         }
-      }),
-    );
+      }
+    }
 
-    board.clearFullRows();
+    return false;
+  }
+
+  handleLanded() {
+    if (this.rowPos <= 0) {
+      board.handleGameOver();
+      return;
+    }
+
+    for (let row = 0; row < this.layout[this.activeIndex].length; row++) {
+      for (let col = 0; col < this.layout[this.activeIndex][0].length; col++) {
+        if (this.layout[this.activeIndex][row][col] !== WHITE_COLOR_ID) {
+          board.grid[row + this.rowPos][col + this.colPos] = this.id;
+        }
+      }
+    }
+
+    
+    board.handleCompleteRows();
     board.drawBoard();
-    spawnBrick();
   }
 }
 
-/**************** GAME ****************/
-const BRICK_LAYOUT = [...arguments][0] || window.BRICK_LAYOUT;
-
-function spawnBrick() {
-  const id = Math.floor(Math.random() * BRICK_LAYOUT.length);
-  brick = new Brick(BRICK_LAYOUT[id]);
-  brick.id = id;
-  brick.draw(id);
+function generateNewBrick() {
+  brick = new Brick(Math.floor(Math.random() * 10) % BRICK_LAYOUT.length); // tao ra 1 id bat ki nam tu 0 -> 6
 }
 
-function gameLoop() {
-  if (!brick.move(0, 1)) {
-    brick.lock();
-  }
-
-  if (board.score >= 100 && speed > 200) {
-    speed -= 100;
-    restartLoop();
-  }
-}
-
-function restartLoop() {
-  clearInterval(gameInterval);
-  gameInterval = setInterval(gameLoop, speed);
-}
-
-/**************** INPUT ****************/
-document.addEventListener("keydown", (e) => {
-  if (!board.isPlaying) return;
-  if (e.code === KEY_CODES.LEFT) brick.move(-1, 0);
-  if (e.code === KEY_CODES.RIGHT) brick.move(1, 0);
-  if (e.code === KEY_CODES.DOWN) brick.move(0, 1);
-  if (e.code === KEY_CODES.UP) brick.rotate();
-});
-
-/**************** BUTTONS ****************/
-const controls = {
-  "left-btn": () => brick.move(-1, 0),
-  "right-btn": () => brick.move(1, 0),
-  "down-btn": () => brick.move(0, 1),
-  "up-btn": () => brick.rotate(),
-};
-
-Object.keys(controls).forEach((id) => {
-  const btn = document.getElementById(id);
-  if (!btn) return;
-  ["click", "touchstart"].forEach((evt) =>
-    btn.addEventListener(evt, (e) => {
-      e.preventDefault();
-      if (board.isPlaying) controls[id]();
-    }),
-  );
-});
-
-/**************** START ****************/
-document.getElementById("play").addEventListener("click", () => {
-  clearInterval(gameInterval);
-  speed = 800;
-  board.reset();
-  board.isPlaying = true;
-  spawnBrick();
-  gameInterval = setInterval(gameLoop, speed);
-});
-
-/**************** INIT ****************/
 board = new Board(ctx);
-resizeCanvas();
 board.drawBoard();
+
+document.getElementById('play').addEventListener('click', () => {
+  board.reset();
+
+  board.isPlaying = true;
+  
+  generateNewBrick();
+
+  const refresh = setInterval(() => {
+    if (!board.gameOver) {
+      brick.moveDown();
+    } else {
+      clearInterval(refresh);
+    }
+  }, 1000);
+})
+
+
+document.addEventListener('keydown', (e) => {
+  if (!board.gameOver && board.isPlaying) {
+    console.log({ e });
+    switch (e.code) {
+      case KEY_CODES.LEFT:
+        brick.moveLeft();
+        break;
+      case KEY_CODES.RIGHT:
+        brick.moveRight();
+        break;
+      case KEY_CODES.DOWN:
+        brick.moveDown();
+        break;
+      case KEY_CODES.UP:
+        brick.rotate();
+        break;
+      default:
+        break;
+    }
+  }
+});
+// brick.moveLeft();
+// brick.moveDown();
+// brick.moveRight();
+// board.drawCell(1, 1, 1);
+
+console.table(board.grid);
