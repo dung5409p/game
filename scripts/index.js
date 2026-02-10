@@ -182,8 +182,6 @@ const KEY_CODES = {
   DOWN: "ArrowDown",
 };
 
-const WHITE_COLOR_ID = 7;
-
 const COLS = 10;
 const ROWS = 20;
 let BLOCK_SIZE;
@@ -192,8 +190,12 @@ const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
-  // Tự động tính kích thước ô dựa trên chiều rộng màn hình
-  BLOCK_SIZE = Math.floor(window.innerWidth / COLS / 1.5);
+  // Tính toán lại kích thước ô dựa trên chiều rộng màn hình
+  BLOCK_SIZE = Math.floor(window.innerWidth / COLS);
+
+  // Nếu chiều cao màn hình nhỏ, thì điều chỉnh theo chiều cao
+  const maxBlockByHeight = Math.floor(window.innerHeight / ROWS);
+  BLOCK_SIZE = Math.min(BLOCK_SIZE, maxBlockByHeight);
 
   ctx.canvas.width = COLS * BLOCK_SIZE;
   ctx.canvas.height = ROWS * BLOCK_SIZE;
@@ -208,6 +210,7 @@ resizeCanvas();
 
 // Gọi lại khi xoay ngang/dọc hoặc thay đổi kích thước
 window.addEventListener("resize", resizeCanvas);
+
 
 class Board {
   constructor(ctx) {
