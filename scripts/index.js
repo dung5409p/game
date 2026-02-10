@@ -543,13 +543,7 @@ function gameLoop() {
           break;
       }
     });
-    const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
-
-// Tính toán lại kích thước dựa trên chiều rộng màn hình
-const BLOCK_SIZE = Math.floor(window.innerWidth / COLS / 1.2); 
-ctx.canvas.width = COLS * BLOCK_SIZE;
-ctx.canvas.height = ROWS * BLOCK_SIZE;
+   
 
   },
 );
